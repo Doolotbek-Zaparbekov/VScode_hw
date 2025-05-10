@@ -1,9 +1,21 @@
 import flet as ft
 def main(page: ft.Page):
     page.title = "Учет расходов"
-    title = ft.Text(value="Выши расходы", size=33)
+    page.data = 0
+    def add_todo(e):
+        todo = f"Расход: {cause.value}/сумма: {quantity.value}"
+        todo_list_area.controls.append(ft.Text(value=todo, size=20))
+        page.data += int(quantity.value)
+        quantity.value = ""
+        cause.value = ""
+        consumption.value = f"Общая сумма расходов: {page.data}"
+        page.update()
+    consumption = ft.Text(value=f"Общая сумма расходов {page.data}", size=25)
+    page.update()
+    title = ft.Text(value="Ваши расходы", size=33)
     cause = ft.TextField(label="Название расхода")
-    quantity = ft.TextField(label="Сумма рвсхода")
-    add_button = ft.ElevatedButton("Добавить")
-    page.add(title, cause, quantity, add_button)
+    quantity = ft.TextField(label="Сумма расхода")
+    add_button = ft.ElevatedButton("Добавить", on_click=add_todo)
+    todo_list_area = ft.Column()
+    page.add(title, cause, quantity, add_button, consumption, todo_list_area)
 ft.app(main)
