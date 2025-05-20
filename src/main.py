@@ -1,14 +1,14 @@
 import flet as ft
 from database import Database
-
 def main(page: ft.Page):
     page.title = "Учет расходов"
     page.data = 0
-    db = Database("expenses.sqlite3")
+    db = Database("expense.sqlite3")
     db.create_tables()
     def add_todo(e):
         todo = f"Расход: {cause.value}/сумма: {quantity.value}"
         todo_list_area.controls.append(ft.Text(value=todo, size=20))
+        db.add_expense(cause.value, quantity.value)
         page.data += int(quantity.value)
         quantity.value = ""
         cause.value = ""
@@ -22,6 +22,5 @@ def main(page: ft.Page):
     add_button = ft.ElevatedButton("Добавить", on_click=add_todo)
     form_area = ft.Row(controls=[cause, quantity, add_button])
     todo_list_area = ft.Column()
-
     page.add(title, form_area, consumption, todo_list_area)
 ft.app(main)
