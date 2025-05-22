@@ -23,3 +23,16 @@ class Database:
                 (cause, int(quantity))
             )
             conn.commit()
+
+    def delete_expense(self, expense_id: int):
+        with sqlite3.connect(self.path) as conn:
+            conn.execute(
+                "DELETE FROM expenses WHERE id = ?",
+                (expense_id,)
+            )
+            conn.commit()
+
+    def get_all_expenses(self):
+        with sqlite3.connect(self.path) as conn:
+            cursor = conn.execute("SELECT id, cause, quantity FROM expenses")
+            return cursor.fetchall()
