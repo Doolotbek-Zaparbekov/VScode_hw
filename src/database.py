@@ -32,6 +32,14 @@ class Database:
             )
             conn.commit()
 
+    def update_expense(self,expense_id: int, cause: str, quantity: int):
+        with sqlite3.connect(self.path) as conn:
+            conn.execute("""
+            UPDATE expense SET cause = ?, quantity = ? WHERE id = ?
+            """,
+            (cause, quantity, expense_id))
+            conn.commit()
+
     def get_all_expenses(self):
         with sqlite3.connect(self.path) as conn:
             cursor = conn.execute("SELECT id, cause, quantity FROM expense")
